@@ -1,4 +1,4 @@
-import getAllPrompts from '@actions/getAllPrompts'
+import getAllPrompts from '@app/actions/getAllPrompts'
 import Feed from '@components/Feed'
 
 export default async function Home() {

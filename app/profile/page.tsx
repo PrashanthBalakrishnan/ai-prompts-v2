@@ -1,5 +1,5 @@
-import getCurrentUser from '@actions/getCurrentUser'
-import getMyPrompts from '@actions/getMyPrompts'
+import getCurrentUser from '@app/actions/getCurrentUser'
+import getMyPrompts from '@app/actions/getMyPrompts'
 import PromptCard from '@components/PromptCard'
 
 const MyProfile = async () => {

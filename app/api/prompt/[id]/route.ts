@@ -1,4 +1,4 @@
-import getCurrentUser from '@actions/getCurrentUser'
+import getCurrentUser from '@app/actions/getCurrentUser'
 import prisma from '@libs/prismadb'
 import { NextResponse } from 'next/server'
 

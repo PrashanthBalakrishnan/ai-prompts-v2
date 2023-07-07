@@ -1,4 +1,4 @@
-import getAllPrompts from '@actions/getAllPrompts'
+import getAllPrompts from '@app/actions/getAllPrompts'
 import Nav from '@components/Nav'
 import AuthContext from '@context/AuthContext'
 import ToasterContext from '@context/ToastContext'
