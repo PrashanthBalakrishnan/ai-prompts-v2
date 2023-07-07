@@ -73,7 +73,7 @@ const Nav = () => {
                   href="/create-prompt"
                   onClick={() => setToggleDropdown(false)}
                 >
-                  Create Prompt
+                  Create Post
                 </Link>
                 <Button
                   type="button"
