@@ -1,5 +1,4 @@
 import getAllPrompts from '@actions/getAllPrompts'
-import Feed from '@components/Feed'
 import Nav from '@components/Nav'
 import AuthContext from '@context/AuthContext'
 import ToasterContext from '@context/ToastContext'
