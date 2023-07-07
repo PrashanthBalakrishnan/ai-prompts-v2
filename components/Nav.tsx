@@ -46,7 +46,7 @@ const Nav = () => {
       <div className="items-center">
         {session ? (
           <div className="relative flex gap-3 md:gap-5">
-            <Link className="mr-4 hidden sm:flex" href="/create-prompt">
+            <Link className="mr-4" href="/create-prompt">
               <Button>Create Post</Button>
             </Link>
 
@@ -68,13 +68,7 @@ const Nav = () => {
                 >
                   My Profile
                 </Link>
-                <Link
-                  className="dropdown_link"
-                  href="/create-prompt"
-                  onClick={() => setToggleDropdown(false)}
-                >
-                  Create Post
-                </Link>
+
                 <Button
                   type="button"
                   onClick={() => {
