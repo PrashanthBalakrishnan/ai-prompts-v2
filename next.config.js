@@ -5,14 +5,11 @@ const nextConfig = {
     swcPlugins: [['next-superjson-plugin', {}]],
   },
   images: {
-    domains: ['lh3.googleusercontent.com'],
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreBuildErrors: true,
-    ignoreDuringBuilds: true,
+    domains: [
+      'res.cloudinary.com',
+      'avatars.githubusercontent.com',
+      'lh3.googleusercontent.com',
+    ],
   },
 }
 
