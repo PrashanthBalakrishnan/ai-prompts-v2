@@ -27,7 +27,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
   }
 
   const handleEdit = () => {
-    router.push(`/update-prompt?=id${post.id}`)
+    router.push(`/update-prompt?id=${post.id}`)
   }
 
   const handleDelete = () => {

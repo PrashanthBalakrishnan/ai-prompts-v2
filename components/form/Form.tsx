@@ -9,6 +9,7 @@ import Button from './Button'
 import Link from 'next/link'
 import Textarea from './Textarea'
 import { toast } from 'react-hot-toast'
+import { Prompt } from '@prisma/client'
 
 const Form = () => {
   const router = useRouter()
