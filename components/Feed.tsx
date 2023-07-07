@@ -52,14 +52,14 @@ const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
   return (
     <section className="">
       <form className="relative  mx-auto w-[300px] p-5">
-        <Input
+        {/* <Input
           id="search"
           register={register}
           disabled={isLoading}
           errors={errors}
           placeholder="Search for a tag or a username"
           required
-        />
+        /> */}
       </form>
       <h4 className="head_text">Latest Prompts</h4>
       <PromptCardList data={posts} handleTagClick={() => {}} />
