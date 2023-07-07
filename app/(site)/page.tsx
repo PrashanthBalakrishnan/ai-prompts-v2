@@ -3,7 +3,6 @@ import Feed from '@components/Feed'
 
 export default async function Home() {
   const allPrompts = await getAllPrompts()
-  console.log(allPrompts)
 
   return (
     <section>

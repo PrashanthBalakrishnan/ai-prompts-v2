@@ -33,7 +33,7 @@ const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
 
   useEffect(() => {
     setPosts(allPrompts)
-  }, [allPrompts])
+  }, [setPosts, allPrompts])
 
   const {
     register,
