@@ -1,9 +1,9 @@
 'use client'
-import { useState, useEffect } from 'react'
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form'
-import Input from './form/Input'
+import { useState, useEffect, useMemo } from 'react'
 import PromptCard from './PromptCard'
 import { FullPrompt } from '@types'
+import useDebounce from '@hooks/useDebounce'
+import Input from './form/Input'
 
 interface PromptCardListProps {
   data: FullPrompt[] | undefined
@@ -29,40 +29,65 @@ interface FeedProps {
 
 const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
   const [isLoading, setIsLoading] = useState(false)
+
+  const [searchText, setSearchText] = useState<string>('')
+  const [searchedResults, setSearchedResults] = useState<FullPrompt[]>([])
+
   const [posts, setPosts] = useState<FullPrompt[]>()
 
   useEffect(() => {
     setPosts(allPrompts)
   }, [setPosts, allPrompts])
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FieldValues>({
-    defaultValues: {
-      search: '',
-    },
-  })
-
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    setIsLoading(true)
+  const handleSearchChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setSearchText(e.currentTarget.value)
   }
+
+  const debouncedValue = useDebounce(searchText)
+
+  useMemo(() => {
+    const filterPrompts = (searchtext: string) => {
+      const regex = new RegExp(searchtext, 'i') // 'i' flag for case-insensitive search
+      return posts?.filter(
+        (item) =>
+          regex.test(item.tag) ||
+          regex.test(item.prompt) ||
+          regex.test(item.user.name!)
+      )
+    }
+    const resultArray: FullPrompt[] | undefined = filterPrompts(debouncedValue)
+    if (resultArray) {
+      setSearchedResults(resultArray)
+    }
+  }, [debouncedValue, posts])
 
   return (
     <section className="">
-      <form className="relative  mx-auto w-[300px] p-5">
-        {/* <Input
-          id="search"
-          register={register}
-          disabled={isLoading}
-          errors={errors}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+        }}
+        className="relative  mx-auto w-[300px] p-5"
+      >
+        <input
+          className="glassmorphism search_input"
           placeholder="Search for a tag or a username"
-          required
-        /> */}
+          type="text"
+          onChange={handleSearchChange}
+          value={searchText}
+        />
       </form>
-      <h4 className="head_text">Latest Prompts</h4>
-      <PromptCardList data={posts} handleTagClick={() => {}} />
+
+      {/* All Prompts */}
+
+      {searchText ? (
+        <PromptCardList data={searchedResults} />
+      ) : (
+        <div>
+          <h4 className="head_text">Latest Prompts</h4>
+          <PromptCardList data={posts} handleTagClick={() => {}} />
+        </div>
+      )}
     </section>
   )
 }
