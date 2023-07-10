@@ -94,5 +94,5 @@ body,
 
 /* Search */
 .search_input {
-  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-5 pr-12 font-satoshi text-sm font-medium shadow-lg focus:border-black focus:outline-none focus:ring-0;
+  @apply block w-full rounded-md border border-gray-200 bg-white py-2.5 pl-5  font-satoshi text-sm font-medium shadow-lg focus:border-black focus:outline-none focus:ring-0;
 }

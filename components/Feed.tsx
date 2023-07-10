@@ -3,11 +3,11 @@ import { useState, useEffect, useMemo } from 'react'
 import PromptCard from './PromptCard'
 import { FullPrompt } from '@types'
 import useDebounce from '@hooks/useDebounce'
-import Input from './form/Input'
-
+import { MdClear } from 'react-icons/md'
+import { filterPrompts } from '@utils/filterPrompts'
 interface PromptCardListProps {
   data: FullPrompt[] | undefined
-  handleTagClick?: () => void
+  handleTagClick?: (tagName: string) => void
 }
 
 const PromptCardList: React.FC<PromptCardListProps> = ({
@@ -28,8 +28,6 @@ interface FeedProps {
 }
 
 const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
-  const [isLoading, setIsLoading] = useState(false)
-
   const [searchText, setSearchText] = useState<string>('')
   const [searchedResults, setSearchedResults] = useState<FullPrompt[]>([])
 
@@ -46,20 +44,22 @@ const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
   const debouncedValue = useDebounce(searchText)
 
   useMemo(() => {
-    const filterPrompts = (searchtext: string) => {
-      const regex = new RegExp(searchtext, 'i') // 'i' flag for case-insensitive search
-      return posts?.filter(
-        (item) =>
-          regex.test(item.tag) ||
-          regex.test(item.prompt) ||
-          regex.test(item.user.name!)
-      )
-    }
-    const resultArray: FullPrompt[] | undefined = filterPrompts(debouncedValue)
+    const resultArray: FullPrompt[] | undefined = filterPrompts(
+      debouncedValue,
+      posts!
+    )
     if (resultArray) {
       setSearchedResults(resultArray)
     }
   }, [debouncedValue, posts])
+
+  const handleTagClick = (tagName: string) => {
+    setSearchText(tagName)
+    const resultArray: FullPrompt[] | undefined = filterPrompts(tagName, posts!)
+    if (resultArray) {
+      setSearchedResults(resultArray)
+    }
+  }
 
   return (
     <section className="">
@@ -69,9 +69,15 @@ const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
         }}
         className="relative  mx-auto w-[300px] p-5"
       >
+        {searchText && (
+          <MdClear
+            className="absolute right-6 top-8 z-50 h-5 w-5 text-slate-800"
+            onClick={() => setSearchText('')}
+          />
+        )}
         <input
-          className="glassmorphism search_input"
-          placeholder="Search for a tag or a username"
+          className="glassmorphism search_input p-5"
+          placeholder="Search prompt..."
           type="text"
           onChange={handleSearchChange}
           value={searchText}
@@ -81,11 +87,21 @@ const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
       {/* All Prompts */}
 
       {searchText ? (
-        <PromptCardList data={searchedResults} />
+        <div>
+          <h4 className="head_text">Search Results</h4>
+          {searchedResults.length === 0 ? (
+            <p>No Results Found</p>
+          ) : (
+            <PromptCardList
+              data={searchedResults}
+              handleTagClick={handleTagClick}
+            />
+          )}
+        </div>
       ) : (
         <div>
           <h4 className="head_text">Latest Prompts</h4>
-          <PromptCardList data={posts} handleTagClick={() => {}} />
+          <PromptCardList data={posts} handleTagClick={handleTagClick} />
         </div>
       )}
     </section>

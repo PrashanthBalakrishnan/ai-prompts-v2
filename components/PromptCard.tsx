@@ -11,7 +11,7 @@ import { toast } from 'react-hot-toast'
 
 interface PromptCardProps {
   post: FullPrompt
-  handleTagClick?: () => void
+  handleTagClick?: (tagName: string) => void
 }
 
 const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
@@ -37,19 +37,23 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
       .finally(router.refresh)
   }
 
+  const handleProfileClick = () => {
+    if (post.user.email === session?.user?.email) return router.push('/profile')
+
+    router.push(`/profile/${post.userId}?name=${post.user.name}`)
+  }
+
   return (
     <div className="prompt_card glassmorphism">
       <div className="flex items-start justify-between gap-5">
-        <div
-          className="flex flex-1 cursor-pointer items-center justify-start gap-3"
-          onClick={() => {}}
-        >
+        <div className="flex flex-1 cursor-pointer items-center justify-start gap-3">
           <Image
             className="rounded-full object-contain"
             src={post.user.image || '/images/placeholder.jpg'}
             alt="user profile"
             width={40}
             height={40}
+            onClick={handleProfileClick}
           />
           <div className="flex flex-col">
             <h3 className="font-satoshi font-semibold text-gray-900">
@@ -68,7 +72,7 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
       <p className="mt-4 font-satoshi text-sm text-gray-700">{post.prompt}</p>
       <p
         className="cursor-pointer font-inter text-sm text-gray-400"
-        onClick={handleTagClick}
+        onClick={() => handleTagClick && handleTagClick(post.tag)}
       >
         #{post.tag}
       </p>
