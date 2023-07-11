@@ -8,6 +8,7 @@ import Loading from './loading'
 const FullPrompt = () => {
   const [post, setPost] = useState<FullPromptwithAIresponse>()
   const { id } = useParams()
+  console.log(id)
   useEffect(() => {
     axios.get(`/api/prompt/${id}`).then((res) => {
       setPost(res.data)

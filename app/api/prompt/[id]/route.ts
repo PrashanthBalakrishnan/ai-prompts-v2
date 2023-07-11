@@ -10,6 +10,7 @@ const analyze = async (prompt: string) => {
   })
   const result = await model.call(prompt)
   console.log(result)
+  return result
 }
 
 interface IParams {
@@ -20,10 +21,7 @@ interface IParams {
 
 export async function GET(request: Request, { params }: { params: IParams }) {
   try {
-    const { id } = params
-    if (!id) {
-      return NextResponse.json(null)
-    }
+    const { id } = await params
 
     const prompt = await prisma.prompt.findUnique({
       where: {
@@ -33,21 +31,13 @@ export async function GET(request: Request, { params }: { params: IParams }) {
         user: true,
       },
     })
-    const analyze = async (prompt: string) => {
-      const model = new OpenAI({
-        temperature: 0,
-        modelName: 'gpt-3.5-turbo',
-      })
-      return await model.call(prompt)
-    }
-
     const aiResponse = await analyze(prompt?.prompt!)
 
-    const promptWithResponse = { ...prompt, aiResponse }
+    const promptWithAi = { aiResponse, ...prompt }
 
-    return NextResponse.json(promptWithResponse)
-  } catch (error) {
-    console.log(error)
+    return NextResponse.json(promptWithAi)
+  } catch (error: any) {
+    console.log(error.message)
   }
 }
 
