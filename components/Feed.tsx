@@ -71,7 +71,7 @@ const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
       >
         {searchText && (
           <MdClear
-            className="absolute right-6 top-8 z-50 h-5 w-5 text-slate-800"
+            className="absolute right-6 top-7 z-50 h-6  w-6 text-slate-800"
             onClick={() => setSearchText('')}
           />
         )}

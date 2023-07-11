@@ -82,7 +82,10 @@ const Nav = () => {
             )}
           </div>
         ) : (
-          <>
+          <div className="flex items-center gap-3">
+            <p className="text-xs text-gray-400 ">
+              Sign in to unlock all features
+            </p>
             {providers && (
               <Button
                 type="button"
@@ -94,7 +97,7 @@ const Nav = () => {
                 Sign in
               </Button>
             )}
-          </>
+          </div>
         )}
       </div>
     </nav>

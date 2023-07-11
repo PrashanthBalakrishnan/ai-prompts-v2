@@ -51,15 +51,15 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
   return (
     <div className="glassmorphism ">
       {session?.user?.email === post.user.email && pathName === '/profile' && (
-        <div className="flex-center flex gap-2 py-2">
+        <div className="flex-center flex gap-2  py-2">
           <p
-            className="cursor-pointer font-inter text-base hover:text-gray-500"
+            className="cursor-pointer rounded-lg bg-gray-100 p-2 font-inter text-base transition-colors hover:bg-gray-300"
             onClick={() => handleEdit()}
           >
             Edit
           </p>
           <p
-            className="cursor-pointer font-inter text-base hover:text-gray-500"
+            className="cursor-pointer rounded-lg bg-gray-100 p-2 font-inter text-base transition-colors hover:bg-gray-300"
             onClick={() => handleDelete()}
           >
             Delete
@@ -67,14 +67,16 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
         </div>
       )}
       <div className="flex  items-start justify-between gap-5 ">
-        <div className="flex flex-1  items-center justify-start gap-3">
+        <div
+          className="flex flex-1  cursor-pointer items-center justify-start gap-3 "
+          onClick={handleProfileClick}
+        >
           <Image
-            className="cursor-pointer rounded-full object-contain"
+            className="rounded-full object-contain"
             src={post.user.image || '/images/placeholder.jpg'}
             alt="user profile"
             width={40}
             height={40}
-            onClick={handleProfileClick}
           />
           <div className="flex flex-col">
             <h3 className="font-satoshi font-semibold text-gray-900">
@@ -93,18 +95,22 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
       <p className="my-4 overflow-hidden font-satoshi text-sm text-gray-700">
         {post.prompt}
       </p>
-      <p
-        className="cursor-pointer font-inter text-sm text-gray-400"
-        onClick={() => handleTagClick && handleTagClick(post.tag)}
-      >
-        #{post.tag}
-      </p>
-      <div
-        className="flex cursor-pointer items-center justify-end gap-2 text-sm text-gray-500 transition hover:text-gray-950"
-        onClick={handleCardClick}
-      >
-        <p>Ask A.I</p>
-        <BsRobot />
+      <div className="flex justify-between">
+        <p
+          className="cursor-pointer font-inter text-sm text-gray-400 hover:text-gray-950"
+          onClick={() => handleTagClick && handleTagClick(post.tag)}
+        >
+          #{post.tag}
+        </p>
+        {session?.user?.email && (
+          <div
+            className="inline-flex cursor-pointer items-center  gap-2 text-sm text-gray-500 transition hover:text-gray-950"
+            onClick={handleCardClick}
+          >
+            <p>Ask A.I</p>
+            <BsRobot />
+          </div>
+        )}
       </div>
     </div>
   )
