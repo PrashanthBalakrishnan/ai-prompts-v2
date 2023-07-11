@@ -22,7 +22,7 @@ const UpdatePrompt = () => {
       setPost(res.data)
     })
   }, [promptId])
-
+  console.log(promptId)
   const values = post
   const {
     register,

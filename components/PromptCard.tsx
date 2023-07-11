@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { useSession } from 'next-auth/react'
 import { usePathname, useRouter } from 'next/navigation'
 import { BiCopy, BiPaste } from 'react-icons/bi'
+import { BsRobot } from 'react-icons/bs'
 import { FullPrompt } from '@types'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
@@ -43,12 +44,32 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
     router.push(`/profile/${post.userId}?name=${post.user.name}`)
   }
 
+  const handleCardClick = () => {
+    router.push(`/prompt/${post.id}`)
+  }
+
   return (
-    <div className="prompt_card glassmorphism">
-      <div className="flex items-start justify-between gap-5">
-        <div className="flex flex-1 cursor-pointer items-center justify-start gap-3">
+    <div className="glassmorphism ">
+      {session?.user?.email === post.user.email && pathName === '/profile' && (
+        <div className="flex-center flex gap-2 py-2">
+          <p
+            className="cursor-pointer font-inter text-base hover:text-gray-500"
+            onClick={() => handleEdit()}
+          >
+            Edit
+          </p>
+          <p
+            className="cursor-pointer font-inter text-base hover:text-gray-500"
+            onClick={() => handleDelete()}
+          >
+            Delete
+          </p>
+        </div>
+      )}
+      <div className="flex  items-start justify-between gap-5 ">
+        <div className="flex flex-1  items-center justify-start gap-3">
           <Image
-            className="rounded-full object-contain"
+            className="cursor-pointer rounded-full object-contain"
             src={post.user.image || '/images/placeholder.jpg'}
             alt="user profile"
             width={40}
@@ -69,30 +90,22 @@ const PromptCard: React.FC<PromptCardProps> = ({ post, handleTagClick }) => {
           {copied ? <BiPaste /> : <BiCopy />}
         </div>
       </div>
-      <p className="mt-4 font-satoshi text-sm text-gray-700">{post.prompt}</p>
+      <p className="my-4 overflow-hidden font-satoshi text-sm text-gray-700">
+        {post.prompt}
+      </p>
       <p
         className="cursor-pointer font-inter text-sm text-gray-400"
         onClick={() => handleTagClick && handleTagClick(post.tag)}
       >
         #{post.tag}
       </p>
-
-      {session?.user?.email === post.user.email && pathName === '/profile' && (
-        <div className="flex-center mt-5 gap-4 border-t border-gray-100 pt-3">
-          <p
-            className="cursor-pointer font-inter text-sm"
-            onClick={() => handleEdit()}
-          >
-            Edit
-          </p>
-          <p
-            className="cursor-pointer font-inter text-sm"
-            onClick={() => handleDelete()}
-          >
-            Delete
-          </p>
-        </div>
-      )}
+      <div
+        className="flex cursor-pointer items-center justify-end gap-2 text-sm text-gray-500 transition hover:text-gray-950"
+        onClick={handleCardClick}
+      >
+        <p>Ask A.I</p>
+        <BsRobot />
+      </div>
     </div>
   )
 }

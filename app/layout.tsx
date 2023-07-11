@@ -1,4 +1,3 @@
-import getAllPrompts from '@app/actions/getAllPrompts'
 import Nav from '@components/Nav'
 import AuthContext from '@context/AuthContext'
 import ToasterContext from '@context/ToastContext'
@@ -18,8 +17,6 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const allPrompts = await getAllPrompts()
-
   return (
     <html lang="en">
       <body className={inter.className}>

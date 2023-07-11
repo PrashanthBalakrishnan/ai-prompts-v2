@@ -77,7 +77,7 @@ const Feed: React.FC<FeedProps> = ({ allPrompts }) => {
         )}
         <input
           className="glassmorphism search_input p-5"
-          placeholder="Search prompt..."
+          placeholder="Search..."
           type="text"
           onChange={handleSearchChange}
           value={searchText}
